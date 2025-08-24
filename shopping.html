@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShopEasy - Online Shopping</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: PINK;
+        }
+        header {
+            background-color: BLUE;
+            color: white;
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-size: 2.5rem;
+            font-weight: bold;
+        }
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        nav ul li {
+            margin-left: 1rem;
+        }
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem;
+        }
+        .auth-forms {
+            display: flex;
+            justify-content: space-around;
+            margin: 2rem 0;
+        }
+        .form-container {
+            background-color: BLUE;
+            padding: 2rem;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            width: 45%;
+        }
+        .form-container h2 {
+            margin-top: 0;
+        }
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+        }
+        button {
+            background-color: #333;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #555;
+        }
+        .products {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 250px));
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        .product-card {
+            background-color: RED;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            padding: 1rem;
+            text-align: center;
+        }
+        .product-card img {
+            max-width: 100%;
+            height: auto;
+        }
+        .product-card h3 {
+            margin: 0.5rem 0;
+        }
+        .product-card .price {
+            font-weight: bold;
+            color: #e53935;
+            margin: 0.5rem 0;
+        }
+        .hidden {
+            display: none;
+        }
+        .profile-section {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .order-summary {
+            margin-top: 2rem;
+            background-color: white;
+            padding: 1rem;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">Shop Easy</div>
+        <nav>
+            <ul>
+                <li><a href="#" id="home-link">Home</a></li>
+                <li><a href="#" id="products-link">Products</a></li>
+                <li><a href="#" id="profile-link" class="hidden">
+Profile</a></li>
+                <li><a href="#" id="login-link">Login</a></li>
+                <li><a href="#" id="logout-link" class="hidden">Logout</a></li>
+                <li><a href="#" id="cart-link">Cart (<span id="cart-count">0</span>)</a></li>
+                <li><a href="#" id="contact-link">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="container">
+        <!-- Home Section -->
+        <section id="home-section">
+            <h1>Welcome to ShopEasy</h1>
+            <p>Your one-stop shop for all your needs.</p>
+        </section>
+
+        <!-- Login/Register Section -->
+        <section id="auth-section" class="hidden">
+            <div class="auth-forms">
+                <div class="form-container">
+                    <h2>Login</h2>
+                    <form id="login-form">
+                        <div class="form-group">
+                            <label for="login-username">Username</label>
+                            <input type="text" id="login-username" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="login-password">Password</label>
+                            <input type="password" id="login-password" required>
+                        </div>
+                        <button type="submit">Login</button>
+                    </form>
+                </div>
+                <div class="form-container">
+                    <h2>Register</h2>
+                    <form id="register-form">
+                        <div class="form-group">
+                            <label for="register-username">Username</label>
+                            <input type="text" id="register-username" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="register-email">Email</label>
+                            <input type="email" id="register-email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="register-password">Password</label>
+                            <input type="password" id="register-password" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="register-confirm-password">Confirm Password</label>
+                            <input type="password" id="register-confirm-password" required>
+                        </div>
+                        <button type="submit">Register</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- Products Section -->
+        <section id="products-section" class="hidden">
+            <h2>Our Products</h2>
+            <div class="products">
+                <div class="product-card">
+                    <img src="headphones.jpg" alt="Product 1">
+                    <h3>Wireless Headphones</h3>
+                    <p class="price">45000</p>
+                    <p>High-quality wireless headphones with noise cancellation</p>
+                    <button class="add-to-cart" data-id="1" data-name="Wireless Headphones" data-price="99.99">Add to Cart</button>
+                </div>
+                <div class="product-card">
+                    <img src="smartwatch.jpeg" alt="Product 2">
+                    <h3>Smart Watch</h3>
+                    <p class="price">696500</p>
+                    <p>Track your fitness and stay connected</p>
+                    <button class="add-to-cart" data-id="2" data-name="Smart Watch" data-price="199.99">Add to Cart</button>
+                </div>
+                <div class="product-card">
+                    <img src="bluetoothspeaker.jpeg" alt="Product 3">
+                    <h3>Bluetooth Speaker</h3>
+                    <p class="price">210000</p>
+                    <p>Portable speaker with great sound quality</p>
+                    <button class="add-to-cart" data-id="3" data-name="Bluetooth Speaker" data-price="59.99">Add to Cart</button>
+                </div>
+                <div class="product-card">
+                    <img src="laptopbackpack.webp" alt="Product 4">
+                    <h3>Laptop Backpack</h3>
+                    <p class="price">171500</p>
+                    <p>Durable backpack with laptop compartment</p>
+                    <button class="add-to-cart" data-id="4" data-name="Laptop Backpack" data-price="49.99">Add to Cart</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Profile Section -->
+        <section id="profile-section" class="hidden">
+            <div class="profile-section">
+                <h2>Your Profile</h2>
+                <div class="form-group">
+                    <label>Username:</label>
+                    <p id="profile-username"></p>
+                </div>
+                <div class="form-group">
+                    <label>Email:</label>
+                    <p id="profile-email"></p>
+                </div>
+                <div class="form-group">
+                    <label>Member Since:</label>
+                    <p id="profile-join-date"></p>
+                </div>
+            </div>
+            
+            <div class="order-summary">
+                <h3>Your Orders</h3>
+                <div id="orders-list">
+                    <p>No orders yet.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Cart Section -->
+        <section id="cart-section" class="hidden">
+            <h2>Your Shopping Cart</h2>
+            <div id="cart-items">
+                <p>Your cart is empty.</p>
+            </div>
+            <div id="cart-total">
+                <p>Total: $0.00</p>
+            </div>
+            <button id="checkout-btn">Proceed to Checkout</button>
+        </section>
+    </div>
+
+    <script>
+        // Current user data
+        let currentUser = null;
+        let users = JSON.parse(localStorage.getItem('users')) || [];
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        let orders = JSON.parse(localStorage.getItem('orders')) || [];
+        
+        // DOM Elements
+        const homeSection = document.getElementById('home-section');
+        const authSection = document.getElementById('auth-section');
+        const productsSection = document.getElementById('products-section');
+        const profileSection = document.getElementById('profile-section');
+        const cartSection = document.getElementById('cart-section');
+        
+        const loginLink = document.getElementById('login-link');
+        const logoutLink = document.getElementById('logout-link');
+        const profileLink = document.getElementById('profile-link');
+        const homeLink = document.getElementById('home-link');
+        const productsLink = document.getElementById('products-link');
+        const cartLink = document.getElementById('cart-link');
+        
+        const loginForm = document.getElementById('login-form');
+        const registerForm = document.getElementById('register-form');
+        
+        const cartCount = document.getElementById('cart-count');
+        const cartItems = document.getElementById('cart-items');
+        const cartTotal = document.getElementById('cart-total');
+        const checkoutBtn = document.getElementById('checkout-btn');
+        
+        // Event Listeners
+        loginLink.addEventListener('click', showAuthSection);
+        logoutLink.addEventListener('click', logout);
+        profileLink.addEventListener('click', showProfileSection);
+        homeLink.addEventListener('click', showHomeSection);
+        productsLink.addEventListener('click', showProductsSection);
+        cartLink.addEventListener('click', showCartSection);
+        
+        loginForm.addEventListener('submit', handleLogin);
+        registerForm.addEventListener('submit', handleRegister);
+        checkoutBtn.addEventListener('click', handleCheckout);
+        
+        // Add to cart buttons (event delegation)
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('add-to-cart')) {
+                addToCart(
+                    e.target.dataset.id,
+                    e.target.dataset.name,
+                    parseFloat(e.target.dataset.price)
+                );
+            }
+        });
+        
+        // Initialize the page
+        updateUI();
+        showHomeSection();
+        updateCartCount();
+        
+        // Functions
+        function updateUI() {
+            if (currentUser) {
+                loginLink.classList.add('hidden');
+                logoutLink.classList.remove('hidden');
+                profileLink.classList.remove('hidden');
+            } else {
+                loginLink.classList.remove('hidden');
+                logoutLink.classList.add('hidden');
+                profileLink.classList.add('hidden');
+            }
+        }
+        
+        function showHomeSection(e) {
+            if (e) e.preventDefault();
+            hideAllSections();
+            homeSection.classList.remove('hidden');
+        }
+        
+        function showAuthSection(e) {
+            if (e) e.preventDefault();
+            hideAllSections();
+            authSection.classList.remove('hidden');
+        }
+        
+        function showProductsSection(e) {
+            if (e) e.preventDefault();
+            hideAllSections();
+            productsSection.classList.remove('hidden');
+        }
+        
+        function showProfileSection(e) {
+            if (e) e.preventDefault();
+            if (!currentUser) {
+                showAuthSection();
+                return;
+            }
+            
+            hideAllSections();
+            profileSection.classList.remove('hidden');
+            
+            // Populate profile data
+            document.getElementById('profile-username').textContent = currentUser.username;
+            document.getElementById('profile-email').textContent = currentUser.email;
+            document.getElementById('profile-join-date').textContent = new Date(currentUser.joinDate).toLocaleDateString();
+            
+            // Display orders
+            const userOrders = orders.filter(order => order.userId === currentUser.id);
+            const ordersList = document.getElementById('orders-list');
+            
+            if (userOrders.length === 0) {
+                ordersList.innerHTML = '<p>No orders yet.</p>';
+            } else {
+                ordersList.innerHTML = '';
+                userOrders.forEach(order => {
+                    const orderElement = document.createElement('div');
+                    orderElement.innerHTML = `
+                        <p><strong>Order #${order.id}</strong> - ${new Date(order.date).toLocaleDateString()}</p>
+                        <p>Total: $${order.total.toFixed(2)}</p>
+                        <ul>
+                            ${order.items.map(item => `<li>${item.name} - $${item.price.toFixed(2)} x ${item.quantity}</li>`).join('')}
+                        </ul>
+                        <hr>
+                    `;
+                    ordersList.appendChild(orderElement);
+                });
+            }
+        }
+        
+        function showCartSection(e) {
+            if (e) e.preventDefault();
+            hideAllSections();
+            cartSection.classList.remove('hidden');
+            renderCart();
+        }
+        
+        function hideAllSections() {
+            homeSection.classList.add('hidden');
+            authSection.classList.add('hidden');
+            productsSection.classList.add('hidden');
+            profileSection.classList.add('hidden');
+            cartSection.classList.add('hidden');
+        }
+        
+        function handleLogin(e) {
+            e.preventDefault();
+            const username = document.getElementById('login-username').value;
+            const password = document.getElementById('login-password').value;
+            
+            const user = users.find(u => u.username === username && u.password === password);
+            
+            if (user) {
+                currentUser = user;
+                localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                updateUI();
+                showHomeSection();
+                alert('Login successful!');
+            } else {
+                alert('Invalid username or password');
+            }
+        }
+        
+        function handleRegister(e) {
+            e.preventDefault();
+            const username = document.getElementById('register-username').value;
+            const email = document.getElementById('register-email').value;
+            const password = document.getElementById('register-password').value;
+            const confirmPassword = document.getElementById('register-confirm-password').value;
+            
+            if (password !== confirmPassword) {
+                alert('Passwords do not match');
+                return;
+            }
+            
+            if (users.some(u => u.username === username)) {
+                alert('Username already exists');
+                return;
+            }
+            
+            const newUser = {
+                id: Date.now().toString(),
+                username,
+                email,
+                password,
+                joinDate: new Date().toISOString()
+            };
+            
+            users.push(newUser);
+            localStorage.setItem('users', JSON.stringify(users));
+            
+            alert('Registration successful! Please login.');
+            document.getElementById('login-username').value = username;
+            document.getElementById('register-form').reset();
+        }
+        
+        function logout() {
+            currentUser = null;
+            localStorage.removeItem('currentUser');
+            updateUI();
+            showHomeSection();
+        }
+        
+        function addToCart(id, name, price) {
+            if (!currentUser) {
+                showAuthSection();
+                alert('Please login to add items to cart');
+                return;
+            }
+            
+            const existingItem = cart.find(item => item.id === id && item.userId === currentUser.id);
+            
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({
+                    id,
+                    name,
+                    price,
+                    quantity: 1,
+                    userId: currentUser.id
+                });
+            }
+            
+            localStorage.setItem('cart', JSON.stringify(cart));
+            updateCartCount();
+            
+            if (cartSection.classList.contains('hidden')) {
+                alert(`${name} added to cart`);
+            } else {
+                renderCart();
+            }
+        }
+        
+        function updateCartCount() {
+            const userCart = cart.filter(item => item.userId === currentUser?.id);
+            cartCount.textContent = userCart.reduce((total, item) => total + item.quantity, 0);
+        }
+        
+        function renderCart() {
+            if (!currentUser) {
+                cartItems.innerHTML = '<p>Please login to view your cart</p>';
+                cartTotal.innerHTML = '<p>Total: $0.00</p>';
+                return;
+            }
+            
+            const userCart = cart.filter(item => item.userId === currentUser.id);
+            
+            if (userCart.length === 0) {
+                cartItems.innerHTML = '<p>Your cart is empty.</p>';
+                cartTotal.innerHTML = '<p>Total: $0.00</p>';
+                return;
+            }
+            
+            cartItems.innerHTML = '';
+            let total = 0;
+            
+            userCart.forEach(item => {
+                const itemTotal = item.price * item.quantity;
+                total += itemTotal;
+                
+                const itemElement = document.createElement('div');
+                itemElement.className = 'cart-item';
+                itemElement.innerHTML = `
+                    <h3>${item.name}</h3>
+                    <p>$${item.price.toFixed(2)} x ${item.quantity} = $${itemTotal.toFixed(2)}</p>
+                    <button class="remove-from-cart" data-id="${item.id}">Remove</button>
+                    <button class="decrease-quantity" data-id="${item.id}">-</button>
+                    <button class="increase-quantity" data-id="${item.id}">+</button>
+                    <hr>
+                `;
+                cartItems.appendChild(itemElement);
+            });
+            
+            cartTotal.innerHTML = `<p>Total: $${total.toFixed(2)}</p>`;
+            
+            // Add event listeners to the new buttons
+            document.querySelectorAll('.remove-from-cart').forEach(button => {
+                button.addEventListener('click', function() {
+                    removeFromCart(this.dataset.id);
+                });
+            });
+            
+            document.querySelectorAll('.decrease-quantity').forEach(button => {
+                button.addEventListener('click', function() {
+                    updateCartItemQuantity(this.dataset.id, -1);
+                });
+            });
+            
+            document.querySelectorAll('.increase-quantity').forEach(button => {
+                button.addEventListener('click', function() {
+                    updateCartItemQuantity(this.dataset.id, 1);
+                });
+            });
+        }
+        
+        function removeFromCart(id) {
+            cart = cart.filter(item => !(item.id === id && item.userId === currentUser.id));
+            localStorage.setItem('cart', JSON.stringify(cart));
+            updateCartCount();
+            renderCart();
+        }
+        
+        function updateCartItemQuantity(id, change) {
+            const item = cart.find(item => item.id === id && item.userId === currentUser.id);
+            
+            if (item) {
+                item.quantity += change;
+                
+                if (item.quantity <= 0) {
+                    removeFromCart(id);
+                } else {
+                    localStorage.setItem('cart', JSON.stringify(cart));
+                    updateCartCount();
+                    renderCart();
+                }
+            }
+        }
+        
+        function handleCheckout() {
+            if (!currentUser) {
+                showAuthSection();
+                alert('Please login to checkout');
+                return;
+            }
+            
+            const userCart = cart.filter(item => item.userId === currentUser.id);
+            
+            if (userCart.length === 0) {
+                alert('Your cart is empty');
+                return;
+            }
+            
+            const total = userCart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            
+            const order = {
+                id: Date.now().toString(),
+                userId: currentUser.id,
+                date: new Date().toISOString(),
+                items: userCart.map(item => ({
+                    id: item.id,
+                    name: item.name,
+                    price: item.price,
+                    quantity: item.quantity
+                })),
+                total
+            };
+            
+            orders.push(order);
+            localStorage.setItem('orders', JSON.stringify(orders));
+            
+            // Clear the user's cart
+            cart = cart.filter(item => item.userId !== currentUser.id);
+            localStorage.setItem('cart', JSON.stringify(cart));
+            updateCartCount();
+            
+            alert(`Order placed successfully! Total: $${total.toFixed(2)}`);
+            showProfileSection();
+        }
+        
+        // Check if user is already logged in
+        const storedUser = localStorage.getItem('currentUser');
+        if (storedUser) {
+            currentUser = JSON.parse(storedUser);
+            updateUI();
+        }
+    </script>
+</body>
+</html>
